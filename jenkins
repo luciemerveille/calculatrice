@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'JDK17'
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                echo 'Clonage du projet'
+                checkout scm
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                echo 'Compilation Java'
+                bat 'javac Calculatrice.java'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                echo 'Exécution du programme'
+                bat 'java Calculatrice'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline Java exécuté avec succès '
+        }
+        failure {
+            echo 'Erreur dans le pipeline '
+        }
+    }
+}
